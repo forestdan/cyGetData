@@ -1,31 +1,20 @@
+# -*- coding: utf-8 -*-
+
 from urllib import request
 import re
 import os
 import shutil
-
-def requestForHtml(url):
-    req = request.Request(url)
-    html = request.urlopen(req)
-    return html.read().decode("euc-jp")
-    
-def checkPatternList(pattern, str):
-    return re.compile(pattern).findall(str)
-
-def findPattern(pattern, str):
-    textList = checkPatternList(pattern, str)
-    if len(textList) == 0:
-        return None
-    return textList[0]
+from myTool.RequestTool import requestForHtml
+from myTool.RequestTool import downLoadPic
+from myTool.findCheckTool import findPattern
+from myTool.findCheckTool import checkPatternList
 
 def createDir(name):
     path = "/Users/ruixuandan/MyData/cy/" + name
     if not os.path.exists(path):
         os.makedirs(path)
     return path
-
-def downLoadPic(dirPath, name, Addr):
-    request.urlretrieve(Addr, dirPath + "/" + name + ".jpg")
-    
+  
 def getProductList(cbid):
     url = "https://cyanic-nature.com/?mode=cate&cbid=" + cbid + "&csid=0"
     return requestForHtml(url)
