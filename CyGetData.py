@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from urllib import request
-import re
 import os
-import shutil
 from myTool.RequestTool import requestForHtml
 from myTool.RequestTool import downLoadPic
 from myTool.findCheckTool import findPattern
