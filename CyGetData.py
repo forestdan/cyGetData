@@ -18,11 +18,10 @@ def getProductList(cbid):
 
 def getDetail(pid):
     url = "https://cyanic-nature.com/" + pid
-    return requestForHtml(url)
+    return requestForHtml(url, "euc-jp")
     
 if __name__ == "__main__":
-    hpHtml = requestForHtml("https://cyanic-nature.com/")
-    
+    hpHtml = requestForHtml("https://cyanic-nature.com/", "euc-jp")
     findOption = findPattern(r'<select class="prd_search_select" name="cid">[\s\S]*</select>', hpHtml)
     findOption = findPattern(r'<option\s?value=".+">[\s\S]*</option>', findOption)
     findOptionList = checkPatternList(r'<option .*?>.*?</option>', findOption)
@@ -31,7 +30,7 @@ if __name__ == "__main__":
         result = checkPatternList(valuePattern, item)
         for t in result:
             print("商品类型：" + str(t[1]))
-            
+            # 本地存储目录
             localSaveDir = createDir(str(t[1]))
             result = getProductList(t[0])
             # 开始解析商品列表页
