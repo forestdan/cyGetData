@@ -13,4 +13,4 @@ def downLoadPic(dirPath, name, Addr):
     """
     下载图片
     """
-    request.urlretrieve(Addr, dirPath + "/" + name + ".jpg")
+    return request.urlretrieve(Addr, dirPath + "/" + name + ".jpg")
