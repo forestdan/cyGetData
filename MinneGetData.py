@@ -3,14 +3,10 @@ from myTool.RequestTool import requestForHtml
 from myTool.findCheckTool import checkPatternList
 from myTool.findCheckTool import findPattern
 from myTool.RequestTool import downLoadPic
-
+from myTool.LocalTool import createDir
 import os
 
-def createDir(name):
-    path = "/Users/ruixuandan/MyData/minne/" + name
-    if not os.path.exists(path):
-        os.makedirs(path)
-    return path
+siteName = "minne"
 
 if __name__ == "__main__":
     originURLTemplates = "https://minne.com/@petit-choco"
@@ -23,7 +19,7 @@ if __name__ == "__main__":
         text = requestForHtml(originURLTemplates)
         listItemPattern = r'<div class="galleryProductList__item" .*?>.*?</div></div></div></div>'
         itemList = checkPatternList(listItemPattern, text)
-        picPath = createDir("第" + str(i) + "页")
+        picPath = createDir(siteName, "第" + str(i) + "页")
         for itemText in itemList:
             itemPattern = r'<div class="galleryProductList__item" data-product_id=".*?">.*data-product-price="(.*?)".*data-bg="(.*?)">.*data-product-name="(.*?)"'
             item = findPattern(itemPattern, itemText)

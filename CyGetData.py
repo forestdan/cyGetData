@@ -5,12 +5,9 @@ from myTool.RequestTool import requestForHtml
 from myTool.RequestTool import downLoadPic
 from myTool.findCheckTool import findPattern
 from myTool.findCheckTool import checkPatternList
+from myTool.LocalTool import createDir
 
-def createDir(name):
-    path = "/Users/ruixuandan/MyData/cy/" + name
-    if not os.path.exists(path):
-        os.makedirs(path)
-    return path
+siteName = "cy"
   
 def getProductList(cbid):
     url = "https://cyanic-nature.com/?mode=cate&cbid=" + cbid + "&csid=0"
@@ -31,7 +28,7 @@ if __name__ == "__main__":
         for t in result:
             print("商品类型：" + str(t[1]))
             # 本地存储目录
-            localSaveDir = createDir(str(t[1]))
+            localSaveDir = createDir(siteName, str(t[1]))
             result = getProductList(t[0])
             # 开始解析商品列表页
             findUl = findPattern(r'<ul class="prd_lst prd_lst_s clearfix">[\s\S]*?</ul>', result)
