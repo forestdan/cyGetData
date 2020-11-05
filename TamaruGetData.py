@@ -64,15 +64,24 @@ if __name__ == "__main__":
     index = 0
     print("开始获取详情数据")
     for collection in collectionsList:
-        collectionHtml = requestForHtml(sitePageHomeUrl + collection[2])
-        collectionPattern = r'<a class="product-thumb-href" href="(.*?)"></a>'
-        productList = checkPatternList(collectionPattern, collectionHtml)
-        for item in productList:
-            index += 1
-            # 与报表中一致
-            productInfo = (index,) + collection[0:2] + getDetail(item) + (item, )
-            print(productInfo)
-            productInfoList.append(productInfo)
+        pageHtml = requestForHtml(sitePageHomeUrl + collection[2])
+        # 检查列表是否有分页
+        collectionPagePattern = r'class="pagination category-pagination pagination-lg paginate_parts_sum_(.*?)"'
+        pagesStr = findPattern(collectionPagePattern, pageHtml)
+        pages = 1
+        if not None == pages:
+            pages = int(pagesStr)
+        for i in range(1, pages + 1):
+            collectionHtml = requestForHtml(sitePageHomeUrl + collection[2] + "?page=" + str(i))
+            collectionPattern = r'<a class="product-thumb-href" href="(.*?)"></a>'
+            productList = checkPatternList(collectionPattern, collectionHtml)
+            for item in productList:
+                index += 1
+                # 与报表中一致
+                productInfo = (index,) + collection[0:2] + getDetail(item) + (item, )
+                print(productInfo)
+                productInfoList.append(productInfo)
+
     print("详情数据获取结束")
     print("开始生成Excel")
     """
